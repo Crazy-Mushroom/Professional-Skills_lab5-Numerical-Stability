@@ -39,7 +39,7 @@ def parse_words_csv(csv_path: Path) -> pd.DataFrame:
     df["word"] = df["word"].astype(str).str.replace('"', '')
     df["word"] = df["word"].apply(clean_word)
     
-    # Removeempty words
+    # Remove empty words
     df = df[df["word"] != ""]
 
     # convert timestamps to float (seconds)!

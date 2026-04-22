@@ -11,7 +11,7 @@ FEATURE_DIR = "features"
 META_PATH = "data/words/metadata.csv"
 OUTPUT_DIR = "results"
 
-# Create results folder if it does not exit
+# Create results folder if it does not exist
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
@@ -87,7 +87,7 @@ def main():
 
         emb = load_features(f) # load embeddings, especially the dequantized int8 embeddings automatically
 
-        ## Masure disk usage
+        ## Measure disk usage
         path = os.path.join(FEATURE_DIR, f)
         size_mb = os.path.getsize(path) / (1024*1024)
 

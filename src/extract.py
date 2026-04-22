@@ -81,7 +81,7 @@ def extract():
         # last hiddent shape of the outputs = (batch size, time steps, hidden dim)
         hidden_states = outputs.last_hidden_state  # (B, T, D)
 
-        # Average over time dimension to get ont vector per word.
+        # Average over time dimension to get one vector per word.
         # This gives us a fixed-size representation of the word regardless of the word length
         pooled = hidden_states.mean(dim=1)  # (B, D)
 
@@ -89,7 +89,7 @@ def extract():
 
     embeddings = np.vstack(embeddings)   # combine all batches into one big array
 
-    ### convert to float64（baseline reference）!
+    ### convert to float64 (baseline reference)!
     embeddings = embeddings.astype(np.float64)
 
     elapsed = time.time() - start_time
