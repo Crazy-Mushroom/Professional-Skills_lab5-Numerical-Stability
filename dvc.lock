@@ -1,0 +1,118 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: num_env\Scripts\python src/preprocess.py
+    deps:
+    - path: data/raw/ru-fr_interference/2/wav_et_textgrids/FRcorp_textgrids_only
+      hash: md5
+      md5: f740bda64fa177d7c2cfbb84602feb88.dir
+      size: 738308394
+      nfiles: 5928
+    - path: src/preprocess.py
+      hash: md5
+      md5: a5dcbac986d17fc788df3c488efc15cd
+      size: 5253
+    outs:
+    - path: data/words/metadata.csv
+      hash: md5
+      md5: c6901a6e058dd5e89620e94c2a3916a2
+      size: 1184892
+  extract:
+    cmd: num_env\Scripts\python src/extract.py
+    deps:
+    - path: data/words/metadata.csv
+      hash: md5
+      md5: c6901a6e058dd5e89620e94c2a3916a2
+      size: 1184892
+    - path: src/extract.py
+      hash: md5
+      md5: ae10d01a225d24216c9b439c492d19f8
+      size: 3337
+    outs:
+    - path: features/embeddings_float64.npy
+      hash: md5
+      md5: 3e16cbcccd7dff8d44b62be64ba8d394
+      size: 44851328
+  convert_precision:
+    cmd: num_env\Scripts\python src/convert_precision.py
+    deps:
+    - path: features/embeddings_float64.npy
+      hash: md5
+      md5: 3e16cbcccd7dff8d44b62be64ba8d394
+      size: 44851328
+    - path: src/convert_precision.py
+      hash: md5
+      md5: 48604c23fe9a5ae29f548b31d5b57e5b
+      size: 2955
+    outs:
+    - path: features/embeddings_float16.npy
+      hash: md5
+      md5: 95092721229c70c07d163cc33eb5c5d2
+      size: 11212928
+    - path: features/embeddings_float32.npy
+      hash: md5
+      md5: a3e49073ec7017ff0ae90732597fb2e7
+      size: 22425728
+    - path: features/embeddings_int8.npy
+      hash: md5
+      md5: 862d03c4e7865d36bcbe5b2edded6994
+      size: 5606528
+    - path: features/embeddings_int8_scale.npy
+      hash: md5
+      md5: 4a82590f7c500099968c9cbf92dbd179
+      size: 136
+  compute_distances:
+    cmd: num_env\Scripts\python src/compute_distances.py
+    deps:
+    - path: data/words/metadata.csv
+      hash: md5
+      md5: c6901a6e058dd5e89620e94c2a3916a2
+      size: 1184892
+    - path: features/embeddings_float16.npy
+      hash: md5
+      md5: 95092721229c70c07d163cc33eb5c5d2
+      size: 11212928
+    - path: features/embeddings_float32.npy
+      hash: md5
+      md5: a3e49073ec7017ff0ae90732597fb2e7
+      size: 22425728
+    - path: features/embeddings_float64.npy
+      hash: md5
+      md5: 3e16cbcccd7dff8d44b62be64ba8d394
+      size: 44851328
+    - path: features/embeddings_int8.npy
+      hash: md5
+      md5: 862d03c4e7865d36bcbe5b2edded6994
+      size: 5606528
+    - path: features/embeddings_int8_scale.npy
+      hash: md5
+      md5: 4a82590f7c500099968c9cbf92dbd179
+      size: 136
+    - path: src/compute_distances.py
+      hash: md5
+      md5: 01c2342382b9698e221a5e5a43cabe93
+      size: 4796
+    outs:
+    - path: results
+      hash: md5
+      md5: 1431e299e1481de15d40cfcb2fc00c2f.dir
+      size: 86978129
+      nfiles: 9
+  visualize:
+    cmd: num_env\Scripts\python src/visualize.py
+    deps:
+    - path: results/
+      hash: md5
+      md5: 1431e299e1481de15d40cfcb2fc00c2f.dir
+      size: 86978129
+      nfiles: 9
+    - path: src/visualize.py
+      hash: md5
+      md5: 2c1829fe4d85c0c23cb48efd9f3d5ee4
+      size: 3637
+    outs:
+    - path: plots/
+      hash: md5
+      md5: 6835d43f7067e6a3aa889c515a9c2ace.dir
+      size: 216079
+      nfiles: 9

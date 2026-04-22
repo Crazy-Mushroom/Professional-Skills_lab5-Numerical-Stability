@@ -1,0 +1,48 @@
+stages:
+  preprocess:
+    cmd: num_env\Scripts\python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/ru-fr_interference/2/wav_et_textgrids/FRcorp_textgrids_only
+    outs:
+      - data/words/metadata.csv
+
+  extract:
+    cmd: num_env\Scripts\python src/extract.py
+    deps:
+      - src/extract.py
+      - data/words/metadata.csv
+    outs:
+      - features/embeddings_float64.npy
+
+  convert_precision:
+    cmd: num_env\Scripts\python src/convert_precision.py
+    deps:
+      - src/convert_precision.py
+      - features/embeddings_float64.npy
+    outs:
+      - features/embeddings_float32.npy
+      - features/embeddings_float16.npy
+      - features/embeddings_int8.npy
+      - features/embeddings_int8_scale.npy
+
+  compute_distances:
+    cmd: num_env\Scripts\python src/compute_distances.py
+    deps:
+      - src/compute_distances.py
+      - data/words/metadata.csv
+      - features/embeddings_float64.npy
+      - features/embeddings_float32.npy
+      - features/embeddings_float16.npy
+      - features/embeddings_int8.npy
+      - features/embeddings_int8_scale.npy
+    outs:
+      - results
+
+  visualize:
+    cmd: num_env\Scripts\python src/visualize.py
+    deps:
+      - src/visualize.py
+      - results/
+    outs:
+      - plots/

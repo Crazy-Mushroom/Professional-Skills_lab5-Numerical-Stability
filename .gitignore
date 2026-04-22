@@ -1,0 +1,15 @@
+num_env/
+
+data/
+
+features/
+
+results/*
+!results/summary.csv
+
+__pycache__/
+*.pyc
+
+.dvc/cache/
+
+*.npy
